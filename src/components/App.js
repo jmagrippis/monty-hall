@@ -23,6 +23,20 @@ class App extends PureComponent {
     this.setState({ offeredDoor, step: 'switch' })
   }
 
+  endGame = switched => {
+    const { doors, offeredDoor, selectedDoor } = this.state
+    const finalDoor = doors[switched ? offeredDoor : selectedDoor]
+
+    this.setState({
+      step: `${finalDoor.prize ? 'won' : 'lost'}-${
+        switched ? 'with' : 'without'
+      }-switch`
+    })
+  }
+
+  stickToDoor = this.endGame.bind(undefined, false)
+  switchDoor = this.endGame.bind(undefined, true)
+
   render() {
     const { doors, step, selectedDoor, offeredDoor } = this.state
 
@@ -35,6 +49,9 @@ class App extends PureComponent {
           step={step}
           selected={selectedDoor + 1}
           offered={offeredDoor + 1}
+          confirmDoor={this.confirmDoor}
+          switchDoor={this.switchDoor}
+          stickToDoor={this.stickToDoor}
         />
         <GameArea
           doors={doors}

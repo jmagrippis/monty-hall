@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
+const Container = styled.div`
+  font-size: 4rem;
+`
 class Door extends PureComponent {
   onClick = () => {
     const { id, onClick } = this.props
@@ -9,7 +13,7 @@ class Door extends PureComponent {
 
   render() {
     const { label } = this.props
-    return <div onClick={this.onClick}>{label}</div>
+    return <Container onClick={this.onClick}>{label}</Container>
   }
 }
 

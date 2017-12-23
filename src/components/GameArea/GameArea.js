@@ -3,22 +3,22 @@ import React, { PureComponent } from 'react'
 import Door from './Door/Door'
 
 class GameArea extends PureComponent {
+  getDoorOnClick(i, { confirmDoor, selectDoor, offered, selected }) {
+    if (i === selected) return confirmDoor
+    if (!offered || i === offered) return selectDoor
+  }
   render() {
-    const { confirmDoor, doors, selectDoor, offered, selected } = this.props
+    const { doors } = this.props
 
     return (
       <div>
         {doors.map(({ prize }, i) => {
-          const revealed = offered && i !== offered && i !== selected
           return (
             <Door
               key={i}
               id={i}
               label={i + 1}
-              revealed={revealed}
-              onClick={
-                revealed ? undefined : i === selected ? confirmDoor : selectDoor
-              }
+              onClick={this.getDoorOnClick(i, this.props)}
             />
           )
         })}
