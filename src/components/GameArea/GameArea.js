@@ -11,27 +11,44 @@ const Container = styled.div`
 `
 
 class GameArea extends PureComponent {
-  getDoorOnClick(i, { confirmDoor, selectDoor, offered, selected }) {
-    if (i === selected) return confirmDoor
-    if (!offered || i === offered) return selectDoor
+  static defaultProps = {
+    gameOver: false
   }
+
+  getDoorOnClick(
+    i,
+    { confirmDoor, selectDoor, switchDoor, stickToDoor, offered, selected }
+  ) {
+    if (typeof offered === 'undefined') {
+      return i === selected ? confirmDoor : selectDoor
+    }
+    if (i === offered) return switchDoor
+    if (i === selected) return stickToDoor
+  }
+
+  getDoorRevealed(i, { gameOver, offered, selected }) {
+    return (
+      gameOver ||
+      (typeof offered !== 'undefined' && i !== selected && i !== offered)
+    )
+  }
+
   render() {
-    const { doors, offered, selected } = this.props
+    const { doors, gameOver, selected } = this.props
 
     return (
       <Container>
-        {doors.map(({ prize }, i) => {
-          return (
-            <Door
-              key={i}
-              id={i}
-              label={i + 1}
-              selected={i === selected}
-              revealed={offered && i !== selected && i !== offered}
-              onClick={this.getDoorOnClick(i, this.props)}
-            />
-          )
-        })}
+        {doors.map(({ prize }, i) => (
+          <Door
+            key={i}
+            id={i}
+            label={i + 1}
+            selected={i === selected}
+            revealed={this.getDoorRevealed(i, this.props)}
+            winner={gameOver && prize}
+            onClick={this.getDoorOnClick(i, this.props)}
+          />
+        ))}
       </Container>
     )
   }

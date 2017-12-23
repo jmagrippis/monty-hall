@@ -28,6 +28,11 @@ class App extends PureComponent {
     this.setState(App.getStartingState(amount))
   }
 
+  restart = () => {
+    const { amount } = this.state
+    this.setState(App.getStartingState(amount))
+  }
+
   selectDoor = selectedDoor => {
     this.setState({ selectedDoor, step: 'confirm' })
   }
@@ -61,7 +66,11 @@ class App extends PureComponent {
           <h1>The Monty Hall Problem</h1>
         </Header>
         <Preface />
-        <Options amount={amount} setAmount={this.setAmount} />
+        <Options
+          amount={amount}
+          setAmount={this.setAmount}
+          restart={this.restart}
+        />
         <GameHost
           step={step}
           selected={selectedDoor + 1}
@@ -74,8 +83,11 @@ class App extends PureComponent {
           doors={doors}
           offered={offeredDoor}
           selected={selectedDoor}
+          gameOver={step.includes('with')}
           selectDoor={this.selectDoor}
           confirmDoor={this.confirmDoor}
+          switchDoor={this.switchDoor}
+          stickToDoor={this.stickToDoor}
         />
       </div>
     )

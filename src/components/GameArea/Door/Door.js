@@ -6,12 +6,16 @@ const Container = styled.div`
   padding: 6rem;
   min-width: 10rem;
   text-align: center;
-  background-color: ${({ revealed, selected }) =>
-    revealed ? 'red' : selected ? '#84FFFF' : '#FFFFFF'};
+  user-select: none;
+  background-color: ${({ winner, revealed, selected }) =>
+    revealed
+      ? winner ? '#B9F6CA' : '#FF8A80'
+      : selected ? '#84FFFF' : '#FFFFFF'};
   cursor: ${({ revealed }) => (revealed ? 'inherit' : 'pointer')};
 `
 class Door extends PureComponent {
   static defaultProps = {
+    revealed: false,
     selected: false
   }
 
@@ -22,9 +26,14 @@ class Door extends PureComponent {
   }
 
   render() {
-    const { label, revealed, selected } = this.props
+    const { label, winner, revealed, selected } = this.props
     return (
-      <Container revealed={revealed} selected={selected} onClick={this.onClick}>
+      <Container
+        winner={winner}
+        revealed={revealed}
+        selected={selected}
+        onClick={this.onClick}
+      >
         {label}
       </Container>
     )
