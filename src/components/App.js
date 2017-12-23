@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 
+import GameArea from './GameArea/GameArea'
+
 class App extends PureComponent {
   render() {
     return (
@@ -7,6 +9,7 @@ class App extends PureComponent {
         <header>
           <h1>The Monty Hall Problem</h1>
         </header>
+        <GameArea />
       </div>
     )
   }
