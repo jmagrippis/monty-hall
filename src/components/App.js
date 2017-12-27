@@ -4,11 +4,12 @@ import styled from 'styled-components'
 
 import GameArea from './GameArea/GameArea'
 import GameHost from './GameHost/GameHost'
-import Preface from './Preface/Preface'
-import getGameDoors from '../utils/getGameDoors'
-import getDoorToOffer from '../utils/getDoorToOffer'
 import Options from './Options/Options'
+import Preface from './Preface/Preface'
 import Stats from './Stats/Stats'
+import getDoorToOffer from '../utils/getDoorToOffer'
+import getGameDoors from '../utils/getGameDoors'
+import { db } from '../firebase'
 
 const Header = styled.header`
   font-size: 3rem;
@@ -45,14 +46,26 @@ class App extends PureComponent {
   }
 
   endGame = switched => {
-    const { doors, offeredDoor, selectedDoor } = this.state
+    const { amount, doors, offeredDoor, selectedDoor } = this.state
     const finalDoor = doors[switched ? offeredDoor : selectedDoor]
 
+    const game = { switched, won: finalDoor.prize }
+
     this.setState({
-      step: `${finalDoor.prize ? 'won' : 'lost'}-${
+      step: `${game.won ? 'won' : 'lost'}-${
         switched ? 'with' : 'without'
       }-switch`
     })
+
+    this.addFinishedGame(this.getGameType(amount), game)
+  }
+
+  addFinishedGame(type, game) {
+    db
+      .collection('doors')
+      .doc(type)
+      .collection('games')
+      .add(game)
   }
 
   stickToDoor = this.endGame.bind(undefined, false)

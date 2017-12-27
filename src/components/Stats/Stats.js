@@ -31,6 +31,10 @@ class Stats extends PureComponent {
     this.unsubscribe = this.subscribe(nextProps)
   }
 
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
+
   renderStats = (game, stats) => {
     const {
       gamesCount,

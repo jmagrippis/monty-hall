@@ -17,8 +17,17 @@ class GameArea extends PureComponent {
 
   getDoorOnClick(
     i,
-    { confirmDoor, selectDoor, switchDoor, stickToDoor, offered, selected }
+    {
+      confirmDoor,
+      gameOver,
+      selectDoor,
+      switchDoor,
+      stickToDoor,
+      offered,
+      selected
+    }
   ) {
+    if (gameOver) return
     if (typeof offered === 'undefined') {
       return i === selected ? confirmDoor : selectDoor
     }
