@@ -57,7 +57,7 @@ class Stats extends PureComponent {
         </div>
         <div>
           <strong>
-            {getPercentage(winsWithoutSwitch + lossesWithoutSwitch, gamesCount)}
+            {getPercentage(winsWithoutSwitch + lossesWithoutSwitch, gamesCount)}%
           </strong>{' '}
           of players kept their original choice.{' '}
           <strong>
